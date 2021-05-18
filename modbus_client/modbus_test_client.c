@@ -68,30 +68,31 @@ static int success = FALSE;
 int main(int argc, char *argv[])
 {
     int rc;
-    int num_iters;
-    int num_iters_inner = 10;
     struct timeval tv_start, tv_end;
     uint64_t time_diff;
 
-    if (argc > 1) {
-        if (strcmp(argv[1], "qemu") == 0) {
-            ctx = modbus_new_tcp("127.0.0.1", 1502);
-        } else if (strcmp(argv[1], "fett") == 0) {
-            ctx = modbus_new_tcp("10.0.2.15", 502);
-        } else {
-            printf("Usage: %s [qemu|fett] - Modbus client for unit testing\r\n", argv[0]);
-            exit(1);
-        }
+    char dest_ip[15];
+    int dest_port;
+    int inner_loop;
+    int outer_loop;
+
+    /* We expect either zero args or four */
+    if (argc == 1) {
+        strncpy(dest_ip, "127.0.0.1", 15);
+        dest_port = 1502;
+        inner_loop = 1;
+        outer_loop = 1;
+    } else if (argc == 5) {
+        strncpy(dest_ip, argv[1], 15);
+        dest_port = atoi(argv[2]);
+        inner_loop = atoi(argv[3]);
+        outer_loop = atoi(argv[4]);
     } else {
-        /* By default */
-        ctx = modbus_new_tcp("127.0.0.1", 1502);
+        printf("Usage: %s <dest_ip> <dest_port> <inner_loop> <outer_loop>\r\n", argv[0]);
+        exit(1);
     }
 
-    if (argc == 3) {
-        num_iters = atoi(argv[2]);
-    } else {
-        num_iters = 1;
-    }
+    ctx = modbus_new_tcp((const char *)dest_ip, dest_port);
 
     if (ctx == NULL) {
         fprintf(stderr, "Unable to allocate libmodbus context\r\n");
@@ -149,12 +150,12 @@ int main(int argc, char *argv[])
 
     /* Execute a series of requests to the Modbus server
      * and validate the replies. */
-    for(int i = 0; i < num_iters; ++i) {
+    for(int i = 0; i < outer_loop; ++i) {
 
         /* Get timestamp before executing test_body(). */
         gettimeofday(&tv_start, NULL);
 
-        for(int j = 0; j < num_iters_inner; ++j) {
+        for(int j = 0; j < inner_loop; ++j) {
 #if defined(MODBUS_NETWORK_CAPS)
             rc = modbus_write_bit_network_caps(ctx, UT_BITS_ADDRESS, ON);
 #else
@@ -171,11 +172,11 @@ int main(int argc, char *argv[])
 #if defined(MODBUS_BENCHMARK)
         /* Get the timestamp difference in usec and store as
          * a benchmark sample.
-         * We divide by num_iters_inner to get an average per-call
+         * We divide by inner_loop to get an average per-call
          * time from the aggregate. */
         time_diff = 1e6 * (tv_end.tv_sec - tv_start.tv_sec) +
             (tv_end.tv_usec - tv_start.tv_usec);
-        xMicrobenchmarkSample(MAX_PROCESSING, "MODBUS_FC_ALL", time_diff/num_iters_inner, 1);
+        xMicrobenchmarkSample(MAX_PROCESSING, "MODBUS_FC_ALL", time_diff/inner_loop, 1);
 #endif
     }
 
