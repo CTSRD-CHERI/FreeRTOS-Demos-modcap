@@ -20,7 +20,13 @@ sudo ifup tap0
 fpga_reset () {
     (! lsmod | grep -q '^portalmem\>') || sudo rmmod portalmem
     (! lsmod | grep -q '^pcieportal\>') || sudo rmmod pcieportal
-    fpga-load-local-image -F -S 0 -I agfi-026d853003d6c433a
+
+    # image with performance counter support
+    fpga-load-local-image -F -S 0 -I agfi-034e55ea770c34eb6
+
+    # image without performance counter support
+    # fpga-load-local-image -F -S 0 -I agfi-026d853003d6c433a
+
     sudo insmod ${SSITH_DIR}/hw/connectal/drivers/pcieportal/pcieportal.ko
     sudo insmod ${SSITH_DIR}/hw/connectal/drivers/portalmem/portalmem.ko
 }
@@ -100,17 +106,17 @@ fpga_kill () {
 
 # modbus server elfs that don't use network capabilities
 modbus_servers_no_network_caps=(
-    "RISC-V-Generic_main_modbus-nocheri-macro-netdelay_0"
+    # "RISC-V-Generic_main_modbus-nocheri-macro-netdelay_0"
     # "RISC-V-Generic_main_modbus-nocheri-macro-netdelay_10"
-    "RISC-V-Generic_main_modbus-purecap-macro-netdelay_0"
+    # "RISC-V-Generic_main_modbus-purecap-macro-netdelay_0"
     # "RISC-V-Generic_main_modbus-purecap-macro-netdelay_10"
-    "RISC-V-Generic_main_modbus-purecap-obj-macro-netdelay_0"
+    # "RISC-V-Generic_main_modbus-purecap-obj-macro-netdelay_0"
     # "RISC-V-Generic_main_modbus-purecap-obj-macro-netdelay_10"
 )
 
 # modbus server elfs that *do* use network capabilities
 modbus_servers_network_caps=(
-    # "RISC-V-Generic_main_modbus-nocheri-net-macro-netdelay_0"
+    "RISC-V-Generic_main_modbus-nocheri-net-macro-netdelay_0"
     # "RISC-V-Generic_main_modbus-nocheri-net-macro-netdelay_10"
     # "RISC-V-Generic_main_modbus-purecap-net-macro-netdelay_0"
     # "RISC-V-Generic_main_modbus-purecap-net-macro-netdelay_10"

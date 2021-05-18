@@ -20,7 +20,13 @@ sudo ifup tap0
 fpga_reset () {
     (! lsmod | grep -q '^portalmem\>') || sudo rmmod portalmem
     (! lsmod | grep -q '^pcieportal\>') || sudo rmmod pcieportal
-    fpga-load-local-image -F -S 0 -I agfi-026d853003d6c433a
+
+    # image with performance counter support
+    fpga-load-local-image -F -S 0 -I agfi-034e55ea770c34eb6
+
+    # image without performance counter support
+    # fpga-load-local-image -F -S 0 -I agfi-026d853003d6c433a
+
     sudo insmod ${SSITH_DIR}/hw/connectal/drivers/pcieportal/pcieportal.ko
     sudo insmod ${SSITH_DIR}/hw/connectal/drivers/portalmem/portalmem.ko
 }
@@ -100,11 +106,11 @@ fpga_kill () {
 
 # modbus server elfs that don't use network capabilities
 modbus_servers_no_network_caps=(
-    "RISC-V-Generic_main_modbus-nocheri-micro-execperiod_100"
+    # "RISC-V-Generic_main_modbus-nocheri-micro-execperiod_100"
     # "RISC-V-Generic_main_modbus-nocheri-micro-execperiod_20"
-    "RISC-V-Generic_main_modbus-purecap-micro-execperiod_100"
+    # "RISC-V-Generic_main_modbus-purecap-micro-execperiod_100"
     # "RISC-V-Generic_main_modbus-purecap-micro-execperiod_20"
-    "RISC-V-Generic_main_modbus-purecap-obj-micro-execperiod_100"
+    # "RISC-V-Generic_main_modbus-purecap-obj-micro-execperiod_100"
     # "RISC-V-Generic_main_modbus-purecap-obj-micro-execperiod_20"
 )
 
@@ -112,9 +118,9 @@ modbus_servers_no_network_caps=(
 modbus_servers_network_caps=(
     "RISC-V-Generic_main_modbus-nocheri-net-micro-execperiod_100"
     # "RISC-V-Generic_main_modbus-nocheri-net-micro-execperiod_20"
-    "RISC-V-Generic_main_modbus-purecap-net-micro-execperiod_100"
+    # "RISC-V-Generic_main_modbus-purecap-net-micro-execperiod_100"
     # "RISC-V-Generic_main_modbus-purecap-net-micro-execperiod_20"
-    "RISC-V-Generic_main_modbus-purecap-obj-net-micro-execperiod_100"
+    # "RISC-V-Generic_main_modbus-purecap-obj-net-micro-execperiod_100"
     # "RISC-V-Generic_main_modbus-purecap-obj-net-micro-execperiod_20"
 )
 
