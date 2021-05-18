@@ -21,7 +21,7 @@ EXEC_PERIOD=(20 100)
 NETWORK_DELAY=(0 10)
 
 if [[ $# != 4 ]]; then
-    echo "usage: $0.sh <nocheri | purecap> <qemu_virt | fett> <path_to_cheribuild> <path_to_output_dir>"
+    echo "usage: $0.sh <nocheri | purecap> <qemu_virt | fett | gfe> <path_to_cheribuild> <path_to_output_dir>"
     exit 1
 fi
 
@@ -37,7 +37,7 @@ elif [[ ${CHERI} == "purecap" ]]; then
     COMPILER_RT_TARGET=${COMPILER_RT_TARGET}-purecap
     FREERTOS_TARGET=${FREERTOS_TARGET}-purecap
 else
-    echo "usage: $0.sh <nocheri | purecap> <qemu_virt | fett> <path_to_cheribuild> <path_to_output_dir>"
+    echo "usage: $0.sh <nocheri | purecap> <qemu_virt | fett | gfe> <path_to_cheribuild> <path_to_output_dir>"
     exit 1
 fi
 
