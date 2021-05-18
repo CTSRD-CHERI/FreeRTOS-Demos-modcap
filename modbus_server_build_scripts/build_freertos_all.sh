@@ -11,8 +11,6 @@ set -e
 set -u
 
 PROG_BASE=main_modbus
-CHERIBUILD_DIR=$3
-CHERI_DIR=$4
 FREERTOS_TARGET=freertos-baremetal-riscv64
 COMPILER_RT_TARGET=compiler-rt-builtins-baremetal-riscv64
 # EXEC_PERIOD=(100)
@@ -27,6 +25,8 @@ fi
 
 CHERI=$1
 PLATFORM=$2
+CHERIBUILD_DIR=$3
+CHERI_DIR=$4
 PROG_BASE=${PROG_BASE}-${CHERI}
 
 # Identify the directory where cheribuild installs binaries
