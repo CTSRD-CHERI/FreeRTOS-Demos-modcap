@@ -42,7 +42,7 @@ else
 fi
 
 # build compiler_rt
-${CHERIBUILD_DIR}/cheribuild.py ${COMPILER_RT_TARGET} --clean
+#${CHERIBUILD_DIR}/cheribuild.py ${COMPILER_RT_TARGET} --clean
 
 # building an elf
 # $1 = program name
