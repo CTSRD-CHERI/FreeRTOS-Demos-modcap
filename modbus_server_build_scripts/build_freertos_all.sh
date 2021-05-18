@@ -12,7 +12,7 @@ set -u
 
 PROG_BASE=main_modbus
 CHERIBUILD_DIR=$3
-CHERI_OUTPUT_DIR=$4
+CHERI_DIR=$4
 FREERTOS_TARGET=freertos-baremetal-riscv64
 COMPILER_RT_TARGET=compiler-rt-builtins-baremetal-riscv64
 # EXEC_PERIOD=(100)
@@ -31,9 +31,9 @@ PROG_BASE=${PROG_BASE}-${CHERI}
 
 # Identify the directory where cheribuild installs binaries
 if [[ ${CHERI} == "nocheri" ]]; then
-    BIN_DIR=${CHERI_OUTPUT_DIR}/sdk/baremetal/baremetal-riscv64/riscv64-unknown-elf/FreeRTOS/Demo/bin
+    BIN_DIR=${CHERI_DIR}/output/sdk/baremetal/baremetal-riscv64/riscv64-unknown-elf/FreeRTOS/Demo/bin
 elif [[ ${CHERI} == "purecap" ]]; then
-    BIN_DIR=${CHERI_OUTPUT_DIR}/sdk/baremetal/baremetal-riscv64-purecap/riscv64-unknown-elf/FreeRTOS/Demo/bin
+    BIN_DIR=${CHERI_DIR}/output/sdk/baremetal/baremetal-riscv64-purecap/riscv64-unknown-elf/FreeRTOS/Demo/bin
     COMPILER_RT_TARGET=${COMPILER_RT_TARGET}-purecap
     FREERTOS_TARGET=${FREERTOS_TARGET}-purecap
 else
@@ -50,6 +50,7 @@ build () {
     ${CHERIBUILD_DIR}/cheribuild.py ${FREERTOS_TARGET} \
         --freertos/prog $1 \
         --freertos/platform ${PLATFORM} \
+        --source-root ${CHERI_DIR} \
         --skip-update --clean
 }
 
