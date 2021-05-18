@@ -6,12 +6,17 @@ ELF_DIR=${HOME}
 SSITH_DIR=${HOME}/ssith-aws-fpga
 CLIENT_DIR=${HOME}/modcap
 
+# modbus server information
+DEST_IP=10.0.2.15
+DEST_PORT=502
+
 # number of times to loop through all Modbus clients
 ITERATIONS=1
 
 # number of runs to perform for each Modbus client run
 DISCARD_RUNS=1
 BENCHMARK_RUNS=1
+LOOP_RUNS=1
 
 # set up the tap0 interface
 sudo ifup tap0
@@ -42,9 +47,8 @@ fpga_run () {
 
 # start a modbus client on the host
 # $1 = the modbus client
-# $2 = the number of runs to perform (sent to the client application)
 client_run () {
-    ${CLIENT_DIR}/build/$1 fett $2 > /dev/null
+    ${CLIENT_DIR}/build/$1 ${DEST_IP} ${DEST_PORT} ${BENCHMARK_RUNS} ${LOOP_RUNS} > /dev/null
 }
 
 # start a modbus client and server together
@@ -69,7 +73,7 @@ combined_run () {
     # run the modbus client on the host
     # these runs warm up the cache and the output will be discarded
     echo "Starting client for discard runs"
-    client_run ${2} ${DISCARD_RUNS}
+    client_run ${2}
 
     # sleep for a few seconds to let the server close its socket
     # and print benchmarking data
@@ -83,12 +87,13 @@ combined_run () {
     echo "Iterations: ${ITERATIONS}" >> ${filename}
     echo "Discarded runs: ${DISCARD_RUNS}" >> ${filename}
     echo "Benchmark runs: ${BENCHMARK_RUNS}" >> ${filename}
+    echo "Loop runs: ${LOOP_RUNS}" >> ${filename}
 
     # run the modbus client on the host
     echo "Starting client for benchmark runs"
     sync
     free -m
-    client_run ${2} ${BENCHMARK_RUNS}
+    client_run ${2}
 
     # sleep for a few seconds to let the server close its socket
     # and print benchmarking data
@@ -106,7 +111,7 @@ fpga_kill () {
 
 # modbus server elfs that don't use network capabilities
 modbus_servers_no_network_caps=(
-    # "RISC-V-Generic_main_modbus-nocheri-micro-execperiod_100"
+    "RISC-V-Generic_main_modbus-nocheri-micro-execperiod_100"
     # "RISC-V-Generic_main_modbus-nocheri-micro-execperiod_20"
     # "RISC-V-Generic_main_modbus-purecap-micro-execperiod_100"
     # "RISC-V-Generic_main_modbus-purecap-micro-execperiod_20"
@@ -116,7 +121,7 @@ modbus_servers_no_network_caps=(
 
 # modbus server elfs that *do* use network capabilities
 modbus_servers_network_caps=(
-    "RISC-V-Generic_main_modbus-nocheri-net-micro-execperiod_100"
+    # "RISC-V-Generic_main_modbus-nocheri-net-micro-execperiod_100"
     # "RISC-V-Generic_main_modbus-nocheri-net-micro-execperiod_20"
     # "RISC-V-Generic_main_modbus-purecap-net-micro-execperiod_100"
     # "RISC-V-Generic_main_modbus-purecap-net-micro-execperiod_20"
