@@ -11,8 +11,8 @@ set -e
 set -u
 
 PROG_BASE=main_modbus
-CHERIBUILD_DIR=$HOME/cheribuild
-CHERI_OUTPUT_DIR=$HOME/cheri/output
+CHERIBUILD_DIR=$3
+CHERI_OUTPUT_DIR=$4
 FREERTOS_TARGET=freertos-baremetal-riscv64
 COMPILER_RT_TARGET=compiler-rt-builtins-baremetal-riscv64
 # EXEC_PERIOD=(100)
@@ -20,8 +20,8 @@ EXEC_PERIOD=(20 100)
 # NETWORK_DELAY=(0)
 NETWORK_DELAY=(0 10)
 
-if [[ $# != 2 ]]; then
-    echo "usage: $0.sh <nocheri | purecap> <qemu_virt | fett>"
+if [[ $# != 4 ]]; then
+    echo "usage: $0.sh <nocheri | purecap> <qemu_virt | fett> <path_to_cheribuild> <path_to_output_dir>"
     exit 1
 fi
 
@@ -37,7 +37,7 @@ elif [[ ${CHERI} == "purecap" ]]; then
     COMPILER_RT_TARGET=${COMPILER_RT_TARGET}-purecap
     FREERTOS_TARGET=${FREERTOS_TARGET}-purecap
 else
-    echo "usage: $0.sh <nocheri | purecap> <qemu_virt | fett>"
+    echo "usage: $0.sh <nocheri | purecap> <qemu_virt | fett> <path_to_cheribuild> <path_to_output_dir>"
     exit 1
 fi
 
