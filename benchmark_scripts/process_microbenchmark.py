@@ -162,6 +162,11 @@ def benchmark_output_file_to_df(file):
     csv = ''
     with open(file) as fin:
         for line in fin:
+            # sanitise some serial junk leading the first actual output line
+            if "benchmark_type" in line:
+                pos = line.find("benchmark_type")
+                line = line[pos:]
+
             if line.startswith('REQUEST_PROCESSING_MICROBENCHMARK') or \
             line.startswith('SPARE_PROCESSING_MICROBENCHMARK') or \
             line.startswith('MAX_PROCESSING_MACROBENCHMARK') or \

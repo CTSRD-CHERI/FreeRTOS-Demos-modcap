@@ -22,42 +22,42 @@ num_reqs = 1;
 
 # names of benchmark applications
 benchmark_names = [
-    'modbus_nocheri_macrobenchmark_0',
-    'modbus_purecap_macrobenchmark_0',
-    'modbus_nocheri_network_caps_macrobenchmark_0',
-    'modbus_purecap_network_caps_macrobenchmark_0',
-    'modbus_purecap_object_caps_macrobenchmark_0',
-    'modbus_purecap_object_network_caps_macrobenchmark_0',
-    'modbus_nocheri_macrobenchmark_10',
-    'modbus_purecap_macrobenchmark_10',
-    'modbus_nocheri_network_caps_macrobenchmark_10',
-    'modbus_purecap_network_caps_macrobenchmark_10',
-    'modbus_purecap_object_caps_macrobenchmark_10',
-    'modbus_purecap_object_network_caps_macrobenchmark_10'
+    'RISC-V-Generic_main_modbus-nocheri-macro-netdelay_0',
+    'RISC-V-Generic_main_modbus-purecap-macro-netdelay_0',
+    'RISC-V-Generic_main_modbus-nocheri-net-macro-netdelay_0',
+    'RISC-V-Generic_main_modbus-purecap-net-macro-netdelay_0',
+    'RISC-V-Generic_main_modbus-purecap-obj-macro-netdelay_0',
+    'RISC-V-Generic_main_modbus-purecap-obj-net-macro-netdelay_0',
+    'RISC-V-Generic_main_modbus-nocheri-macro-netdelay_10',
+    'RISC-V-Generic_main_modbus-purecap-macro-netdelay_10',
+    'RISC-V-Generic_main_modbus-nocheri-net-macro-netdelay_10',
+    'RISC-V-Generic_main_modbus-purecap-net-macro-netdelay_10',
+    'RISC-V-Generic_main_modbus-purecap-obj-macro-netdelay_10',
+    'RISC-V-Generic_main_modbus-purecap-obj-net-macro-netdelay_10'
 ]
 
 benchmark_names_no_network_caps_0ms = [
-    'modbus_nocheri_macrobenchmark_0',
-    'modbus_purecap_macrobenchmark_0',
-    'modbus_purecap_object_caps_macrobenchmark_0',
+    'RISC-V-Generic_main_modbus-nocheri-macro-netdelay_0',
+    'RISC-V-Generic_main_modbus-purecap-macro-netdelay_0',
+    'RISC-V-Generic_main_modbus-purecap-obj-macro-netdelay_0',
 ]
 
 benchmark_names_no_network_caps_10ms = [
-    'modbus_nocheri_macrobenchmark_10',
-    'modbus_purecap_macrobenchmark_10',
-    'modbus_purecap_object_caps_macrobenchmark_10',
+    'RISC-V-Generic_main_modbus-nocheri-macro-netdelay_10',
+    'RISC-V-Generic_main_modbus-purecap-macro-netdelay_10',
+    'RISC-V-Generic_main_modbus-purecap-obj-macro-netdelay_10',
 ]
 
 benchmark_names_network_caps_0ms = [
-    'modbus_nocheri_network_caps_macrobenchmark_0',
-    'modbus_purecap_network_caps_macrobenchmark_0',
-    'modbus_purecap_object_network_caps_macrobenchmark_0',
+    'RISC-V-Generic_main_modbus-nocheri-net-macro-netdelay_0',
+    'RISC-V-Generic_main_modbus-purecap-net-macro-netdelay_0',
+    'RISC-V-Generic_main_modbus-purecap-obj-net-macro-netdelay_0',
 ]
 
 benchmark_names_network_caps_10ms = [
-    'modbus_nocheri_network_caps_macrobenchmark_10',
-    'modbus_purecap_network_caps_macrobenchmark_10',
-    'modbus_purecap_object_network_caps_macrobenchmark_10',
+    'RISC-V-Generic_main_modbus-nocheri-net-macro-netdelay_10',
+    'RISC-V-Generic_main_modbus-purecap-net-macro-netdelay_10',
+    'RISC-V-Generic_main_modbus-purecap-obj-net-macro-netdelay_10',
 ]
 
 # dict of modbus functions and pretty-print names (for plotting)
@@ -169,6 +169,11 @@ def benchmark_output_file_to_df(file):
     csv = ''
     with open(file) as fin:
         for line in fin:
+            # sanitise some serial junk leading the first actual output line
+            if "benchmark_type" in line:
+                pos = line.find("benchmark_type")
+                line = line[pos:]
+
             if line.startswith('REQUEST_PROCESSING_MICROBENCHMARK') or \
             line.startswith('SPARE_PROCESSING_MICROBENCHMARK') or \
             line.startswith('MAX_PROCESSING_MACROBENCHMARK') or \
