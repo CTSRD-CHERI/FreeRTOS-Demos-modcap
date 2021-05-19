@@ -19,42 +19,42 @@ benchmark_type = 'REQUEST_PROCESSING_MICROBENCHMARK'
 
 # names of benchmark applications
 benchmark_names = [
-    'modbus_nocheri_microbenchmark_20',
-    'modbus_purecap_microbenchmark_20',
-    'modbus_nocheri_network_caps_microbenchmark_20',
-    'modbus_purecap_network_caps_microbenchmark_20',
-    'modbus_purecap_object_caps_microbenchmark_20',
-    'modbus_purecap_object_network_caps_microbenchmark_20',
-    'modbus_nocheri_microbenchmark_100',
-    'modbus_purecap_microbenchmark_100',
-    'modbus_nocheri_network_caps_microbenchmark_100',
-    'modbus_purecap_network_caps_microbenchmark_100',
-    'modbus_purecap_object_caps_microbenchmark_100',
-    'modbus_purecap_object_network_caps_microbenchmark_100'
+    'RISC-V-Generic_main_modbus-nocheri-micro-execperiod_20',
+    'RISC-V-Generic_main_modbus-purecap-micro-execperiod_20',
+    'RISC-V-Generic_main_modbus-nocheri-net-micro-execperiod_20',
+    'RISC-V-Generic_main_modbus-purecap-net-micro-execperiod_20',
+    'RISC-V-Generic_main_modbus-purecap-obj-micro-execperiod_20',
+    'RISC-V-Generic_main_modbus-purecap-obj-net-micro-execperiod_20',
+    'RISC-V-Generic_main_modbus-nocheri-micro-execperiod_100',
+    'RISC-V-Generic_main_modbus-purecap-micro-execperiod_100',
+    'RISC-V-Generic_main_modbus-nocheri-net-micro-execperiod_100',
+    'RISC-V-Generic_main_modbus-purecap-net-micro-execperiod_100',
+    'RISC-V-Generic_main_modbus-purecap-obj-micro-execperiod_100',
+    'RISC-V-Generic_main_modbus-purecap-obj-net-micro-execperiod_100'
 ]
 
 benchmark_names_no_network_caps_20ms = [
-    'modbus_nocheri_microbenchmark_20',
-    'modbus_purecap_microbenchmark_20',
-    'modbus_purecap_object_caps_microbenchmark_20',
+    'RISC-V-Generic_main_modbus-nocheri-micro-execperiod_20',
+    'RISC-V-Generic_main_modbus-purecap-micro-execperiod_20',
+    'RISC-V-Generic_main_modbus-purecap-obj-micro-execperiod_20',
 ]
 
 benchmark_names_no_network_caps_100ms = [
-    'modbus_nocheri_microbenchmark_100',
-    'modbus_purecap_microbenchmark_100',
-    'modbus_purecap_object_caps_microbenchmark_100',
+    'RISC-V-Generic_main_modbus-nocheri-micro-execperiod_100',
+    'RISC-V-Generic_main_modbus-purecap-micro-execperiod_100',
+    'RISC-V-Generic_main_modbus-purecap-obj-micro-execperiod_100',
 ]
 
 benchmark_names_network_caps_20ms = [
-    'modbus_nocheri_network_caps_microbenchmark_20',
-    'modbus_purecap_network_caps_microbenchmark_20',
-    'modbus_purecap_object_network_caps_microbenchmark_20',
+    'RISC-V-Generic_main_modbus-nocheri-net-micro-execperiod_20',
+    'RISC-V-Generic_main_modbus-purecap-net-micro-execperiod_20',
+    'RISC-V-Generic_main_modbus-purecap-obj-net-micro-execperiod_20',
 ]
 
 benchmark_names_network_caps_100ms = [
-    'modbus_nocheri_network_caps_microbenchmark_100',
-    'modbus_purecap_network_caps_microbenchmark_100',
-    'modbus_purecap_object_network_caps_microbenchmark_100',
+    'RISC-V-Generic_main_modbus-nocheri-net-micro-execperiod_100',
+    'RISC-V-Generic_main_modbus-purecap-net-micro-execperiod_100',
+    'RISC-V-Generic_main_modbus-purecap-obj-net-micro-execperiod_100',
 ]
 
 # dict of modbus functions and pretty-print names (for plotting)
