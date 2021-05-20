@@ -269,7 +269,7 @@ def get_gms_and_overheads(benchmark_type, benchmark_data, benchmark_names):
         df = benchmark_data[benchmark_name]
 
         if len(df) == 0:
-            return (None, None)
+            continue
 
         for modbus_function_name in df.modbus_function_name.value_counts().index:
             # print("Processing: {} in {}".format(modbus_function_name, benchmark_name))
